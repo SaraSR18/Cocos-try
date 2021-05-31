@@ -2,12 +2,12 @@
   "ver": "1.0.11",
   "importer": "animation-clip",
   "imported": true,
-  "uuid": "db37326d-c7bc-4f85-ac92-0bf3655a9554",
+  "uuid": "0f05baaa-44a2-472e-a436-f8d811fa777f",
   "files": [
     ".json"
   ],
   "subMetas": {},
   "userData": {
-    "name": "twoSteps"
+    "name": "twoStep"
   }
 }

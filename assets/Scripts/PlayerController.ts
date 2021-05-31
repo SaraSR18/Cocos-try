@@ -2,13 +2,8 @@
 import { _decorator, Component, Node, Vec3, systemEvent, SystemEvent, EventMouse } from 'cc';
 const { ccclass, property } = _decorator;
 
-@ccclass('Character')
-export class Character extends Component {
-    // [1]
-    // dummy = '';
-
-    // [2]
-    // @property
+@ccclass('PlayerController')
+export class PlayerController extends Component {
     // for fake tween
     private _startJump: boolean = false;
     private _jumpStep: number = 0;
@@ -20,8 +15,10 @@ export class Character extends Component {
     private _targetPos: Vec3 = new Vec3();
     private _isMoving = false;
 
+    @property({type: Animation})
+    public BodyAnim: Animation|null = null;
+
     start () {
-        // Your initialization goes here.
         systemEvent.on(SystemEvent.EventType.MOUSE_UP, this.onMouseUp, this);
     }
 
