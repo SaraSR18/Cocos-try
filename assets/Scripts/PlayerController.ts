@@ -1,9 +1,18 @@
 
-import { _decorator, Component, Node, Vec3, systemEvent, SystemEvent, EventMouse } from 'cc';
+import { _decorator, Component, Node, Vec3, systemEvent, SystemEvent, EventMouse, Animation } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('PlayerController')
 export class PlayerController extends Component {
+   /* class member could be defined like this */
+    // dummy = '';
+
+    /* use `property` decorator if your want the member to be serializable */
+    // @property
+    // serializableDummy = 0;
+   @property({type: Animation})
+   public BodyAnim: Animation| null = null;
+
     // for fake tween
     private _startJump: boolean = false;
     private _jumpStep: number = 0;
@@ -15,13 +24,19 @@ export class PlayerController extends Component {
     private _targetPos: Vec3 = new Vec3();
     private _isMoving = false;
 
-    @property({type: Animation})
-    public BodyAnim: Animation|null = null;
 
     start () {
+        // Your initialization goes here.
         systemEvent.on(SystemEvent.EventType.MOUSE_UP, this.onMouseUp, this);
     }
 
+    setInputActive(active: boolean) {
+        if (active) {
+            systemEvent.on(SystemEvent.EventType.MOUSE_UP, this.onMouseUp, this);
+        } else {
+            systemEvent.off(SystemEvent.EventType.MOUSE_UP, this.onMouseUp, this);
+        }
+    }
     onMouseUp(event: EventMouse) {
         if (event.getButton() === 0) {
             this.jumpByStep(1);
@@ -43,6 +58,13 @@ export class PlayerController extends Component {
         Vec3.add(this._targetPos, this._curPos, new Vec3(this._jumpStep, 0, 0));
 
         this._isMoving = true;
+        if (this.BodyAnim) {
+            if (step === 1) {
+                this.BodyAnim.play('oneStep');
+            } else if (step === 2) {
+                this.BodyAnim.play('twoStep');
+            }
+        }
     }
 
     onOnceJumpEnd() {
